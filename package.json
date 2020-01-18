@@ -1,0 +1,31 @@
+{
+  "name": "the-concurrency-game",
+  "version": "1.0.0",
+  "description": "Game to test how well can you make a script for asynchronous tasks",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/delaguilaluis/the-concurrency-game.git"
+  },
+  "keywords": [
+    "game",
+    "javascript",
+    "async",
+    "asynchronous"
+  ],
+  "author": "Luis Andrés Del Águila <luis@delaguilaluis.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/delaguilaluis/the-concurrency-game/issues"
+  },
+  "homepage": "https://github.com/delaguilaluis/the-concurrency-game#readme",
+  "devDependencies": {
+    "standard": "^14.3.1"
+  },
+  "dependencies": {
+    "uuid": "^3.4.0"
+  }
+}
