@@ -27,16 +27,16 @@ module.exports = function handleGET (req, res) {
       return ch.id === id
     })
 
-    let uuid
+    let code
     if (!foundChallenge) {
-      uuid = generateUUID()
+      code = generateUUID()
       players[player].challenges.push({
-        id: id,
-        uuid,
-        completed: false
+        id,
+        code,
+        done: false
       })
     } else {
-      uuid = foundChallenge.uuid
+      code = foundChallenge.code
     }
 
     console.dir({ players }, { colors: true, depth: null })
@@ -45,7 +45,7 @@ module.exports = function handleGET (req, res) {
     setTimeout(
       () => {
         res.writeHead(200, { 'Content-Type': 'application/json' })
-        res.write(JSON.stringify({ code: uuid }))
+        res.write(JSON.stringify({ code: code }))
         res.end('\n')
       },
       timeoutValue
