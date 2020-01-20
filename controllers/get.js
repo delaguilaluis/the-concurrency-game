@@ -1,34 +1,37 @@
 const generateUUID = require('uuid')
 const URL = require('url').URL
 const respondBadRequest = require('../lib/respond-bad-request')
-const users = require('../data/users')
+const players = require('../data/players')
 
 const timeoutValue = 5000
 
 module.exports = function handleGET (req, res) {
   const url = new URL(req.url, 'http://idontcare.com')
-  const user = url.searchParams.get('user')
 
-  let challenge
+  if (url.pathname !== '/challenges') return respondBadRequest(res)
+
+  const player = url.searchParams.get('player')
+
+  let id
   try {
-    challenge = Number.parseInt(url.searchParams.get('challenge'), 10)
+    id = Number.parseInt(url.searchParams.get('id'), 10)
   } catch (e) {
     respondBadRequest(res)
     return
   }
 
-  if (user && challenge < 721 && challenge > 0) {
-    if (!users[user]) users[user] = { challenges: [] }
+  if (player && id < 721 && id > 0) {
+    if (!players[player]) players[player] = { challenges: [] }
 
-    const foundChallenge = users[user].challenges.find((ch) => {
-      return ch.id === challenge
+    const foundChallenge = players[player].challenges.find((ch) => {
+      return ch.id === id
     })
 
     let uuid
     if (!foundChallenge) {
       uuid = generateUUID()
-      users[user].challenges.push({
-        id: challenge,
+      players[player].challenges.push({
+        id: id,
         uuid,
         completed: false
       })
@@ -36,7 +39,7 @@ module.exports = function handleGET (req, res) {
       uuid = foundChallenge.uuid
     }
 
-    console.dir({ users }, { colors: true, depth: null })
+    console.dir({ players }, { colors: true, depth: null })
 
     // You want the code? You're gonna have to wait for it
     setTimeout(
@@ -47,5 +50,9 @@ module.exports = function handleGET (req, res) {
       },
       timeoutValue
     )
+
+    return
   }
+
+  respondBadRequest(res)
 }
