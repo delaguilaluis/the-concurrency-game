@@ -8,6 +8,19 @@ const timeoutValue = 5000
 module.exports = function handleGET (req, res) {
   const url = new URL(req.url, 'http://idontcare.com')
 
+  if (url.pathname === '/scoreboard') {
+    res.writeHead(200, { 'Content-Type': 'application/json' })
+    const scoreboard = Object.keys(players).reduce((acc, player) => ({
+      [player]: players[player].challenges
+        .filter((challenge) => challenge.done === true)
+        .length
+    }), {})
+
+    res.write(JSON.stringify(scoreboard))
+    res.end('\n')
+    return
+  }
+
   if (url.pathname !== '/challenges') return respondBadRequest(res)
 
   const player = url.searchParams.get('player')
