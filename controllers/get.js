@@ -59,20 +59,24 @@ module.exports = function handleGET (req, res) {
         code,
         done: false
       })
-    } else {
-      code = foundChallenge.code
+
+      // You want the code? You're gonna have to wait for it
+      setTimeout(
+        () => {
+          res.writeHead(200, { 'Content-Type': 'application/json' })
+          res.write(JSON.stringify({ code: code, done: false }))
+          res.end('\n')
+        },
+        timeoutValue
+      )
+
+      return
     }
 
-    // You want the code? You're gonna have to wait for it
-    setTimeout(
-      () => {
-        res.writeHead(200, { 'Content-Type': 'application/json' })
-        res.write(JSON.stringify({ code: code }))
-        res.end('\n')
-      },
-      timeoutValue
-    )
-
+    // Was it previously requested? Then don't wait for it :)
+    res.writeHead(200, { 'Content-Type': 'application/json' })
+    res.write(JSON.stringify({ code: foundChallenge.code, done: true }))
+    res.end('\n')
     return
   }
 
