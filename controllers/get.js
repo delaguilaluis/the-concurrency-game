@@ -10,11 +10,15 @@ module.exports = function handleGET (req, res) {
 
   if (url.pathname === '/scoreboard') {
     res.writeHead(200, { 'Content-Type': 'application/json' })
-    const scoreboard = Object.keys(players).reduce((acc, player) => ({
-      [player]: players[player].challenges
-        .filter((challenge) => challenge.done === true)
-        .length
-    }), {})
+    const scoreboard = Object.keys(players).map((player) => {
+      return {
+        player,
+        challenges_done: players[player].challenges
+          .filter((challenge) => challenge.done === true)
+          .length
+      }
+    })
+      .sort((a, b) => b.challenges_done - a.challenges_done)
 
     res.write(JSON.stringify(scoreboard))
     res.end('\n')
