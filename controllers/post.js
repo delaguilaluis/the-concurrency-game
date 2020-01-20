@@ -22,16 +22,17 @@ module.exports = function handlePOST (req, res) {
     }
 
     const player = body.player
-    const id = body.id
+    const id = Number.parseInt(body.id, 10)
     const code = body.code
 
     if (player && players[player] && id > 0 && id < 721) {
       const matchingChallenge = players[player].challenges.find((ch) => {
-        return ch.code === code
+        return ch.id === id && ch.code === code
       })
 
-      if (matchingChallenge) matchingChallenge.done = true
+      if (!matchingChallenge) return respondBadRequest(res)
 
+      matchingChallenge.done = true
 
       res.writeHead(204, { 'Content-Type': 'application/json' })
       res.end('\n')
