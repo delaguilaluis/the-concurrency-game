@@ -32,7 +32,6 @@ module.exports = function handlePOST (req, res) {
 
       if (matchingChallenge) matchingChallenge.done = true
 
-      console.dir({ players }, { colors: true, depth: null })
 
       res.writeHead(204, { 'Content-Type': 'application/json' })
       res.end('\n')

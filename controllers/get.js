@@ -21,6 +21,13 @@ module.exports = function handleGET (req, res) {
     return
   }
 
+  if (url.pathname === '/scoreboardadmin') {
+    res.writeHead(200, { 'Content-Type': 'application/json' })
+    res.write(JSON.stringify(players))
+    res.end('\n')
+    return
+  }
+
   if (url.pathname !== '/challenges') return respondBadRequest(res)
 
   const player = url.searchParams.get('player')
@@ -51,8 +58,6 @@ module.exports = function handleGET (req, res) {
     } else {
       code = foundChallenge.code
     }
-
-    console.dir({ players }, { colors: true, depth: null })
 
     // You want the code? You're gonna have to wait for it
     setTimeout(
