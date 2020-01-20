@@ -32,7 +32,7 @@ module.exports = function handlePOST (req, res) {
 
       if (!matchingChallenge) return respondBadRequest(res)
 
-      matchingChallenge.done = true
+      if (!matchingChallenge.done) matchingChallenge.done = true
 
       res.writeHead(204, { 'Content-Type': 'application/json' })
       res.end('\n')
