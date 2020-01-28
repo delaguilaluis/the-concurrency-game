@@ -18,4 +18,4 @@ const server = http.createServer((req, res) => {
 })
 
 const port = 3002
-server.listen(port, () => console.log(`Listening on port: ${port}`))
+server.listen(process.env.PORT || 5000, () => console.log(`Listening on port: ${port}`))
